@@ -6,7 +6,6 @@ import { inputComponentName } from "./createComponent/inputComponentName";
 import { inputFilePath } from "./createComponent/inputFilePath";
 import { constructComponent } from "./ts-morph/constructComponent";
 import { constructStory } from "./ts-morph/constructStory";
-import { constructTest } from "./ts-morph/constructTest";
 import { exec } from "./utils/exec";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,7 +18,6 @@ async function main() {
   const componentDir = path.resolve(componentsDir, filePath);
 
   const componentFilePath = path.join(componentDir, componentName + ".tsx");
-  const testFilePath = path.join(componentDir, componentName + ".test.tsx");
   const storyFilePath = path.join(componentDir, componentName + ".stories.tsx");
 
   fs.mkdirSync(componentDir, { recursive: true });
@@ -27,8 +25,6 @@ async function main() {
   const project = new Project({});
   const componentFile = project.createSourceFile(componentFilePath);
   constructComponent(componentFile, componentName);
-  const testFile = project.createSourceFile(testFilePath);
-  constructTest(testFile, componentName);
   const storyFile = project.createSourceFile(storyFilePath);
   constructStory(storyFile, filePath, componentName);
   project.saveSync();
